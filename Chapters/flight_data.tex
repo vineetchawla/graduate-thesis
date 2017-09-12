@@ -1,0 +1,86 @@
+\chapter{Flight Data}
+For data analysis, the data of German flights was required. There is no open source datasets available for Germany flights so all this data had to be taken from scratch. There are numerous websites that do keep record of historical data of flights. But none of the free versions of the websites provided either the API or historical data for free. At the end, Flightradar24 was selected for their cheap Gold tier options which provided us last six months of historical flight data for each flight in the world. But first we also needed the actual flights for which we needed the records.
+
+\section{List of all flights landing in Germany}
+For getting the data from FlightRadar24, the first task was to create a list of flights that are landing in Germany from any airport in the world. Luckily, doing quick search on Flightradar24 we had a small list of 56 airports that are used for commercial and charter flights in Germany [EC]. The airports that just handled chartered flights were ignored for this dataset. As this was a small task and didn't require much time, this whole process was done manually. For each airport of Germany, we had all the flights which were landing on that airport. Each record was copied into an excel file, available on github, with the most important flight details. The records contained the origin airport, the destination airport, the standard arrival and departure of the flight, and most importantly, the flight ID and name of the airline. On completing the task we had about 3000 flights that came in from more than 200 cities in the world and landed in one of the 28 biggest airports in Germany.
+
+\section{Plausible Sources for historical flight data}
+Once we had details of all the flights landing in Germany, the next step was to get the historical data of at least 3 months for each flight in our list. As this was going to be a huge dataset that cannot be created/curated manually, the requirements for selecting data sources were defined as follows:
+\begin{enumerate}
+    \item The flight data source should have at least 3 months of historical data of flights, especially the actual departure, actual arrival and flight delay.
+    \item The flight data source should preferably have a developer friendly API to automate the whole process of getting the data
+    \item The API calls or subscription costs for the flight data source should be reasonable
+\end{enumerate}
+
+Based on the above mentioned criteria, the following flight data sources were evaluated. 
+\subsection{Flightstats}
+Flightstats keeps track of the flights across the world. They have a developer API but it is not easy to register. The user has to give specific domain where their data will be used, assure them there will be no commercial use and give details of what kind of data would be required. On making the request multiple times, our request was rejected. Soon a call was received from flightaware sales team that offered to provide the complete dataset as an excel file instead. The happiness of receiving the complete and clean data was shortlived though as the company asked for 2000€ for the dataset. Hence Flightstats was not considered anymore.
+
+\subsection{Flightaware}
+Flightaware is one of the biggest websites in the world providing live flight tracking across the globe. [EC] They have a very user friendly developer API which provides interface for REST requests. The developer key is provided free of cost. The free account of flightaware.com gives us historical records of 14 days only. At \$20 per month, the flight history provided is 5 months.[EC] But on further research, it was noted that  the historical data was just for display. Their API, FlightXML 3 doesn't provide making REST requests for historical data of a flight via API [https://flightaware.com/commercial/flightxml/pricing_class.rvt].
+Hence this website was not selected
+
+\subsection{Flightradar24}
+Flightradar24 is one of the most famous sites on internet and even has android and iPhone apps that provide real time flight path and flight status. Even though the free account has just 14 days of historical data, the Gold tier, costing just 5 Euros, had flight history of 6 months. But the biggest issue in selecting Flightradar24 was that they have no developer friendly API to get flight stats. But being out of options, this site was selected for at least being more suitable than other websites analysed.
+
+\section{Getting data}
+Not having a API for getting flight history was an obstacle in collecting data but it could be overcome by scraping the flight data instead. As we could see last 6 months of flight data on the webpage.
+Even though many websites specifically consider web scraping illegal, flightradar24 only rejects web-scraping of data if that data is to be used commercially[EC]. Hence this website being a college project, doesn't fit under the commercial category.
+
+\subsection{scraping}
+Web scraping is basically looking into the source code of a webpage and saving the data you require[EC]. As we already had the flight ID of all the flights in Germany, the list for all webpages which would have to scraped was created using the URL template \url{https://www.flightradar24.com/data/flights/<flight_id>/}. 
+Once we had all the web-URLs to be scraped, the actual scraping was started. \\As the whole website was to be created in Python so  the scraping was also done in Python.Python has a very handy utility that provides a very easy to use library for web scraping called Scrapy. 
+In the most basic sense, we get the whole webpage, and then save the desired elements of the URL in JSON format. The important variables for us were 'From', 'To', flight time, STD, AD, SA, AA. All of this data was saved in a csv file.
+ 
+
+\section{Data Variables}
+All the data we received from scraping was saved in a csv file.
+The total records we saved were about 385,000 but many of the observations were missing important variables. In this section we go through each variable and then later on dwell into the cleaning of data so that it's suitable for analysis.
+\begin{enumerate}
+    \item {Departure Airport}
+    \\Origin Airport of the flight. This value can be of any airport in the world that has a direct flight to a German airport
+    \item {Arrival Airport}
+    \\Destination airport of the flight. It will always be one of the German airports
+    \item {Standard Arrival}
+    \\The fixed arrival time of a flight time based on the flight schedule.
+    \item {Actual Arrival}
+    \\The actual arrival of the flight, that might be earlier or most probably at or after the standard arrival of the flight
+    \item {Standard Departure}
+    \\The fixed departure time of a flight time based on the flight schedule.
+    \item {Actual Departure}
+    \\The actual departure of the flight, that might be earlier or most probably at or after the standard departure of the flight
+    \item {Airline}
+    \\The flight company
+    \item {Flight ID}
+    \\The The flight ID is a unique number provided by International Air Transport Organisation to each flight.
+    \item {Aircraft}
+    \\The type of aircraft for the flight
+\end{enumerate}
+
+\section{Data Cleanup and missing values substitution}
+On opening the csv file with all the stored data, it could be noted that a lot of data had some missing values. A lot of data we had was  repetitive data, for ex arrival and destination airports stay same for the flight no matter the date of flight. But some of the data like flight time would change everyday. Hence different strategies were created for cleaning missing values for each variable.
+
+\subsection{Departure Airport}
+\subsection{Arrival Airport}
+\subsection{Standard Arrival}
+\subsection{Actual Arrival}
+\subsection{Standard Departure}
+\subsection{Actual Departure}
+\subsection{Airline}
+\subsection{Flight ID}
+\subsection{Aircraft}
+\subsection{Flight duration}
+
+\section{Adding new variables}
+\subsection{Flight time}
+\subsection{Flight delay}
+\subsection{Flight delay bins}
+\subsection{Weekend}
+\subsection{Time Blocks}
+
+\section{Reducing Levels}
+\subsection{Airline}
+\subsection{Aircraft}
+\subsection{Departure Airport}
+
+\section{End result - dataset}
