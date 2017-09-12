@@ -17,7 +17,7 @@ Based on the above mentioned criteria, the following flight data sources were ev
 Flightstats keeps track of the flights across the world. They have a developer API but it is not easy to register. The user has to give specific domain where their data will be used, assure them there will be no commercial use and give details of what kind of data would be required. On making the request multiple times, our request was rejected. Soon a call was received from flightaware sales team that offered to provide the complete dataset as an excel file instead. The happiness of receiving the complete and clean data was shortlived though as the company asked for 2000€ for the dataset. Hence Flightstats was not considered anymore.
 
 \subsection{Flightaware}
-Flightaware is one of the biggest websites in the world providing live flight tracking across the globe. [EC] They have a very user friendly developer API which provides interface for REST requests. The developer key is provided free of cost. The free account of flightaware.com gives us historical records of 14 days only. At \$20 per month, the flight history provided is 5 months.[EC] But on further research, it was noted that  the historical data was just for display. Their API, FlightXML 3 doesn't provide making REST requests for historical data of a flight via API [https://flightaware.com/commercial/flightxml/pricing_class.rvt].
+Flightaware is one of the biggest websites in the world providing live flight tracking across the globe. [EC] They have a very user friendly developer API which provides interface for REST requests. The developer key is provided free of cost. The free account of flightaware.com gives us historical records of 14 days only. At \$20 per month, the flight history provided is 5 months.[EC] But on further research, it was noted that  the historical data was just for display. Their API, FlightXML 3 doesn't provide making REST requests for historical data of a flight via API \url{[https://flightaware.com/commercial/flightxml/pricing_class.rvt}.
 Hence this website was not selected
 
 \subsection{Flightradar24}
@@ -59,28 +59,104 @@ The total records we saved were about 385,000 but many of the observations were 
 
 \section{Data Cleanup and missing values substitution}
 On opening the csv file with all the stored data, it could be noted that a lot of data had some missing values. A lot of data we had was  repetitive data, for ex arrival and destination airports stay same for the flight no matter the date of flight. But some of the data like flight time would change everyday. Hence different strategies were created for cleaning missing values for each variable.
+Excel was selected for data cleanup due to its ease of use and data visualisation capabilities
 
 \subsection{Departure Airport}
+Departure Airport stays constant for each Flight ID. Many of the flight IDs had different airports on different dates, and some were missing the value. This was rectified for each of the 3000 different flights.
+
 \subsection{Arrival Airport}
+The same strategy was applied to Arrival airport for cleanup as we used for Departure Airport. But this variable had couple of more problems that needed different fix:
+\begin{enumerate}
+    \item Flight diverted
+    \\Arrival airport too remains constant for each Flight ID except in case the flight is diverted. This was a special case and only happened nine times in our dataset. All these entries were removed. \item Connecting Flights
+    \\There are many indirect flight that connect to German airports. For sake of simplicity, it was decided to keep only flight lading in Germany. For ex, if a flight flew from Delhi to Moscow, and then from Moscow to Frankfurt, only flight that came from Moscow was considered and rest were discarded. 
+\end{enumerate} 
+
 \subsection{Standard Arrival}
-\subsection{Actual Arrival}
+The Standard Arrival of a flight does not necessarily stay the same all year. For ex., it changes on the basis of daylight savings or even as a business decision by an airport or Airline. Hence instead of changing all values of standard departure same for complete history of a flight, the values were copied from the upper or lower cell in the data belonging to the same flight. 
+
 \subsection{Standard Departure}
+The same strategy as for Standard Arrival was used for cleaning up Standard Departure too.
+
+\subsection{Actual Arrival}
+Arguably the most important variable that we have in our dataset. The actual flight delay will be calculated using this variable. Any row that doesn't has this value is removed from the dataset.
+
 \subsection{Actual Departure}
+Any values that were missing from actual departure, were assumed to be the same as standard departure as the variable was of not much importance to us.
 \subsection{Airline}
+The airline was corrected on the basis of the upper or lower cells in the dataset. 
+
 \subsection{Flight ID}
+Even though an important variable, it's not at all required for our data analysis. The variable was left as is.
+
 \subsection{Aircraft}
+For cleaning the missing data in Aircraft, it was assumed that a flight uses same aircraft unless a pattern is noticed where each subsequent flight uses a different aircraft.
+
 \subsection{Flight duration}
+Another very important variable in our dataset. And missing value was calculated by subtracting Actual departure from Actual Arrival. All the values were also converted into seconds instead of keeping them in Time format.
 
 \section{Adding new variables}
-\subsection{Flight time}
-\subsection{Flight delay}
+After cleaning the dataset, we decided to add new variables to the dataset which would hopefully make the predictions better aligned to our end goal
+
 \subsection{Flight delay bins}
+Out insurance rates will vary based on our flight delay prediction. To ease this process and give customer a better perspective about the insurance payout, we create 4 different categories of flight Instead of using the exact time of delays. 
+\begin{enumerate}
+    \item 0 if flight is on time or less than 15 minutes late
+    \item 1 if flight is 15 or minutes but less than an hour late
+    \item 2 if flight is more than 15 minutes but less than an hour late
+    \item 3 if flight is an hour or more late
+\end{enumerate}
+
 \subsection{Weekend}
+A simple variable. Using Weekday formula in excel, we create a binary variable which is true if the flight is on weekends.
+
 \subsection{Time Blocks}
+Instead of using exact arrival time of our flight, we create multiple time blocks of 2 hours so that this variable can be used as factor for our classification algorithms. A flight at 8:30 in the morning was classified in block 8 and flight at 15:30 is classified in block 16.
 
 \section{Reducing Levels}
+One problem that we face in classification algorithms when analysing such a big dataset is number of categories of each variable. We have more than 50 airlines and 80 aircraft in our dataset. Algorithms in R like random forest don't accept more than 32 categories.[EC] Boosting algorithms like XGBoost on the other hand require indicator columns instead of categorical variable[EC]. Hence each column with n categories is converted to n columns. This makes the dataset too large. Reducing levels will help in this scenario too.
+
 \subsection{Airline}
+We had 67 different airlines in our dataset with Lufthansa being the most popular with 124940 flight records. We can see in the figure  that we have many airlines with insignificant number of flights. 
+%insert image
+Hence we combine the airlines with lowest number of flights in a new airline category called other\_airline
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Aircraft_orig_levels.png}
+    \caption{Reduced categories of Airlines with number of airline}
+    \label{fig:airline2}
+\end{figure}
+
 \subsection{Aircraft}
+We had about 80 different kind of aircraft in our dataset, with Airbus A320 being the most common choice, with over 81000 flights. We can see in the figure \ref{fig:aircraft1} that we have many aircraft with insignificant number of flights.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Aircraft_orig_levels.png}
+    \caption{Original categories of Aircraft with number of flights}
+    \label{fig:aircraft1}
+\end{figure}
+
+We combine all the aircraft with the lowest number of variables in a new value called other\_aircraft, as seen in figure \ref{fig:aircraft2}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Aircraft_reduced_levels.png}
+    \caption{Reduced categories of Aircraft with number of flights}
+    \label{fig:aircraft2}
+\end{figure}
+
 \subsection{Departure Airport}
+The departure airport has 287 different departure airports from all over the world. Many of the airports have non-insignificant number of flights so converting a majority of flights to a single category would have been counter-productive. Hence we left the variable as is to measure if this variable is any important to our prediction or could be left out.
 
 \section{End result - dataset}
+
+After cleaning the data, substituting the missing values, reducing the number of levels and adding new variables to help in prediction, the summary of the dataset is as seen in figure \ref{fig:summary_flights}:
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/summary_flight_data.png}
+    \caption{Final summary of our flight dataset}
+    \label{fig:summary_flights}
+\end{figure}

@@ -1,25 +1,58 @@
 \chapter{Weather Data}
-\section{Plausible sources}
-\subsection{Accuweather}
+As we have already discussed in the thesis up till now is that predicting the flight delays correctly is of paramount importance to us. In quest for that perfect prediction, we decided to include even the weather data in our flight data set. We are going to take weather data just about the time when the aircraft will land at its destination. 
+
+\section{Plausible sources for weather data}
+Thankfully, collecting weather data is much more common than collecting flight data for last six months. Result being that we had many options to choose from which provided a rich developer API to get historical data for airport sites in Germany.
+\\As a result, the consideration for choosing weather data provided was based on these two conditions
+\begin{enumerate}
+    \item Limitation on making API calls
+    \item Cost of making API calls
+\end{enumerate}
+The following three providers were shortlisted and evaluated on the above stated criteria
+\subsection{Apixu}
+Though not a famous website, apixu provides historical data of upto a year ago on a premium plan of 30 euros per month. Even though it's acceptable cost, the API has limitations of 300,000 calls per month. For normal use cases this is enough, but for our project this is not enough.
+
+\subsection{openweathermap}
+Openweathermap is another famous weather data provider. They have multiple plans for providing historical weather data, but the one that would be suitable for us would be 950 Euros per month. This is way too expensive for the data so we drop this option
 \subsection{DarkSky API}
+Darksky API provides weather data to a famous weather site called Forecast.io. They have the cheapest plan for the project. We can make 1000 API calls every day with every subsequent call charged at just .00001€. This amounts to about 25 euros for complete data that we require. 
 
 \section{Getting data}
-\subsection{API calls}
-\subsection{getting Latitude and Longitude}
-\subsection{Parameters for each call}
+Using API from Darksky is easy but the parameters it required were missing from our dataset. Here is how we got that data
+\begin{enumerate}
+    \item Latitude and Longitude
+    \\ The latitude and longitude for each airport in Germany wasn’t available anywhere so this information was collected manually using Google maps. In Google maps, once we point to a location, the latitude and longitude of that point is available in its URL. This process was repeated for all the 28 airports and then synced to our flights database for each flight.
+    \item Time
+    \\Even though we have the time of flight and the date for each record, this API required time in UNIX epoch format. We use our date variable and actual arrival of each flight to create a corresponding epoch format time.
+\end{enumerate}
+So before making the API class, the parameters Latitude and Longitude and the epoch time is integrated into our dataset. 
+As with other API calls, the script to get the data is written in python and integrates data right into our CSV file containing flight dataset. 
+
 
 \section{Data variables}
 \begin{enumerate}
     \item Summary
+    \\A human-readable text summary of this data point. (This property has millions of possible values, so don’t use it for automated purposes: use the icon property, instead!)
     \item Humidity
+    \\The relative humidity, between 0 and 1, inclusive
     \item Cloud cover
+    \\The percentage of sky occluded by clouds, between 0 and 1, inclusive
     \item Visibility
+    \\The average visibility in miles, capped at 10 miles
     \item Wind Speed
+    \\The wind speed in miles per hour
     \item Wind Bearing
+    \\The direction that the wind is coming from in degrees, with true north at 0° and progressing clockwise. (If windSpeed is zero, then this value will not be defined.)
     \item Apparent Temperature
+    \\The apparent (or “feels like”) temperature in degrees Fahrenheit.
     \item Dew Point
+    \\The percentage of sky occluded by clouds, between 0 and 1, inclusive
     \item Pressure
+    \\The sea-level air pressure in millibars.
     \item Precipitation Intensity
+    \\The intensity (in inches of liquid water per hour) of precipitation occurring at the given time. This value is conditional on probability (that is, assuming any precipitation occurs at all) for minute data points, and unconditional otherwise.
 \end{enumerate}
 
 \section{Missing values cleanup}
+As the data was already clean before requesting, we got the data for each of the flight record. The python script used to request the temperature also made sure each value was in sync with the actual flight records.
+But there were still many values that we were missing in the variables. The missing variables were less than 100 for all the weather variables. But instead of substituting mean values, to fix this, it was assumed that the weather at exact same time and location on a day would be very similar to the day before or after. Hence this strategy was used and the missing values were substituted with values above or below the data cell. 
