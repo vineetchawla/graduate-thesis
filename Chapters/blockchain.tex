@@ -65,20 +65,55 @@ Smart contracts can be coded to reflect any kind of business or engineering logi
 \section{Benefits of Smart Contracts}
 As blockchain is a secure technology, so smart contracts can be more secure than traditional contract law. Also, they can reduce a number of transaction costs associated with contracting, since the blockchain cuts out any middlemen. However, the fact remains that the quality of the output depends on the quality of the input. Smart contracts are by no means magical constructs that understand user intent and are always flawless. If there is an oversight in the text, the result might be even more dramatic than in a traditional contract, because the rules of the smart contract are recorded in computer code and cannot be freely interpreted according to ‘the intent of the contract’, but only according to literal meaning.
 
-\subsection{Original vision for the project}
+\section{Original vision for the project}
 As the project is outlined, the legal contract of insurance was initially supposed to be created as a smart contract. Right now there are multiple startups that are providing smart contract platforms. For the purpose of this project, two platforms were evaluated and tested for creating the legal agreement. We discuss these platforms and will go through the reasons that went into taking a decision to not use them. 
 
-\subsubsection{Monax}
+\subsection{Monax}
 Monax is a platform that provides developers a free platform to build and run Smart contracts. The platform is based on Ethereum Virtual machines. There are no limitations on what the platform can do. The smart contracts can be for claims Management or Supply chain management etc. Monax also provide premium SDKs for sectors such as insurance but as they were expensive, they were not evaluated for the project. Instead the contract was developed from scratch using their platform with Solidity and Ethereum virtual machine. 
 \subsubsection{Architecture}
 For creating a permissioned blockchain on Monax platform, one machine is  required to act as Administrator with full rights and capabilities, and at least three machines are required to act as validator nodes, which just validate transactions and nothing else. The users that will buy insurance from us, will have a participant account, that has the rights to interact with the blockchain and nothing else.
-As Monax is a relatively new company, by the time this evaluation was going on, their product was in an alpha stage. Due to which there were many problems in setup. But as with small companies, it was easy to get in touch with the company and get all my issues pertaining to initial setup fixed. 
-\\
-\subsubsection{Corda}
-\subsubsection{Ethereum private smart contract}
+\\ As Monax is a relatively new company, by the time this evaluation was going on, their product was in an alpha stage. Due to which there were many problems in setup. But as with small companies, it was easy to get in touch with the company and get all my issues pertaining to initial setup fixed. 
+\\After setting up with one administrator node, 3 validator nodes and 2 participant nodes, we go through setting up certificates for each machine. Then we create account types and initial tokens before we mine for genesis block. 
+\\ we give the command to create chains, which will create initial directories for each account we created
+\\Once all the directories are created, we start the mining and our genesis block is created and mining begins.
+\\The consensus of transactions between validators is done by using tendermint protocol, whose explanation is out of scope of this project.
+\\Once our smart contract platform is running and mining transactions, we can create a smart contract in solidity app and commit transactions between participants.
+
+But this is where the problems for excepting the project began:
+\begin{itemize}
+    \item The participants can't be created on the fly. My initial idea was whenever we create a user, that user should be classified as a participant.
+    \item The complete blockchain runs in an Ethereum Virtual machine. There is no way to interact with the actual blockchain. Monax had a node.JS library to interact with the blockchain with no official support for Python. As the project is in Python, using a different and new language was not considered due to time constraints
+\end{itemize}
+
+\subsection{Corda}
+Corda is arguably the most famous platform for smart Contracts. It is developed by R3 consortium, which is supported buy over 50 of the biggest financial institutions of the world.
+\\A Corda network is an authenticated peer-to-peer network of nodes, where each node is a JVM run-time environment hosting Corda services and executing applications known as CorDapps.\cite{Hearn2016Corda:Ledger}. This whole network of nodes is in a permissioned network and each node uses point to point communication instead of global broadcast of requests. Instead of every node seeing every transaction between themselves, a node in Corda network can only see a transaction if the node was part of that transaction, but the node still can validate the transaction.
+As each node is running a JVM run-time environment, the smart contract, or CorDapp has to written in a JVM compatible language, like Java or Kotlin.
+\\ As in the case with Monax, it is not possible to interact with Corda Blockchain directly. But Corda has native support for Oracle. Oracles are network services that, upon request, provide commands that encapsulate a specific fact (e.g. the exchange rate at time x) and list the oracle as a required signer.\cite{OraclesDocumentation}. So I planned to create an oracle for getting flight status but realised that Oracle can't directly contact with REST API. This had to be done with a third party website such as oraclize.it. They provided tools necessary to get the data we want as a oracle service. 
+\\The other reason for dropping the Corda platform was that it's architecture was in such a way that suited a limited number of financial institutions or entities which had multiple transactions in between them. This was contrary to the project idea for this thesis and hence the idea was dropped.
 
 \section{Anchoring data to Blockchain}
-\subsection{Benefits}
-\subsection{Integration with project}
+Due to time constraints, the whole idea of creating smart contract on a blockchain was dropped and instead the plan for utilising the already existing Bitcoin blockchain was made. This plan was fulfilled by the concept called anchoring of data on Bitcoin blockchain. Anchoring in blockchain simply means adding your data to Bitcoin blockchain to provide irrefutable time-stamps and non-repudiation. 
+We have multiple services that provide anchoring service for your data. For this project, Chainpoint was selected as they have a very easy to use (and still free) REST API called Tierion.
+\\Chainpoint links a hash of your data to a blockchain and returns a timestamp proof. A Chainpoint service receives hashes which are aggregated together using a Merkle tree. The root of this tree is anchored in the Bitcoin and Ethereum blockchains. Throughout this process a Chainpoint proof is created and continually upgraded. The final Chainpoint proof defines a path of operations that cryptographically links your data to one or more blockchains.\cite{ChainpointStandard}
+\\A Chainpoint proof is a JSON-LD document, that contains the information to cryptographically verify a piece of data is anchored to a blockchain. It proves the data existed at time it was anchored. Chainpoint proofs can be verified without reliance on a trusted third party.
+\footnote{JSON-LD is a lightweight Linked Data format described here \url{https://json-ld.org/}}
+\\Once the data is sent to Tierion, they anchor it to Bitcoin blockchain. But as mining of bitcoin blockchain takes time, the status and the blockchain receipt isn't provided until at least 10 minutes after the data is sent. Hence we will have to provide the user a manual control to update their status of insurance and receive the receipt.
 
-\section{Goals Accomplished}
+\subsection{Benefits}
+\begin{itemize}
+    \item Proof
+    \item Integrity of data
+    \item Audit trail
+    \item Immutable
+    \item Privacy
+\end{itemize}
+
+\subsection{Integration with project}
+The integration of data with Tierion was very as explained in the following sequence:
+\begin{itemize}
+    \item Once the user selects and agrees to our insurance rates, we create a JSON string with all the important data, especially the following variables:
+    \item Once we have the data, we make a request to Tierion with the data. Tierion creates a hash of the data sent, and anchors it to the Bitcoin blockchain.
+    \item We receive back an id of the data and the hash calculates.
+    \item Initially the status of the blockchain in unpublished and blockchain receipt is null. However, within 10 minutes, the status is updated and the blockchain receipt is received.
+\end{itemize}
