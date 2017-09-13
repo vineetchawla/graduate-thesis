@@ -1,1 +1,63 @@
 \chapter{Blockchain}
+
+Blockchain is the fundamental technology of this thesis. Blockchain technology was first described in a paper written by Satoshi Nakamoto in his highly influential paper introducing Bitcoin. Before delving into how blockchain forms part of our product, we will go through exactly how blockchain was first implemented in Bitcoin, the cryptocurrency that started the blockchain and arguably a financial revolution.
+
+\section{Introduction to Bitcoin}
+Blockchain technology was first described in a paper written by Satoshi Nakamoto in his highly influential paper introducing Bitcoin \cite{Nakamoto2008Bitcoin:System}.In the paper, he described it as a purely peer-to-peer version of electronic cash that would allow online payments to be sent directly from one party to another without going through a financial institution. Up until then, these ideas were theoretical and had not been successfully implemented \cite{Chaum1983BlindPayments}. The Bitcoin currency had three main components that we discuss below.\cite{Economist2013HowWork}
+
+\subsection{Blockchain}
+The block chain is a shared public ledger on which the entire Bitcoin network relies. All confirmed transactions are included in the block chain. This way, Bitcoin wallets can calculate their spendable balance and new transactions can be verified to be spending bitcoins that are actually owned by the spender. The integrity and the chronological order of the block chain are enforced with cryptography.
+
+\subsection{Private Keys}
+A transaction is a transfer of value between Bitcoin wallets that gets included in the block chain. Bitcoin wallets keep a secret piece of data called a private key or seed, which is used to sign transactions, providing a mathematical proof that they have come from the owner of the wallet. The signature also prevents the transaction from being altered by anybody once it has been issued. All transactions are broadcast between users and usually begin to be confirmed by the network in the following 10 minutes, through a process called mining.
+
+\subsection{Mining}
+Mining is a distributed consensus system that is used to confirm waiting transactions by including them in the block chain. It enforces a chronological order in the block chain, protects the neutrality of the network, and allows different computers to agree on the state of the system. To be confirmed, transactions must be packed in a block that fits very strict cryptographic rules that will be verified by the network. These rules prevent previous blocks from being modified because doing so would invalidate all following blocks. Mining also creates the equivalent of a competitive lottery that prevents any individual from easily adding new blocks consecutively in the block chain. This way, no individuals can control what is included in the block chain or replace parts of the block chain to roll back their own spends.
+
+For this project, we will focus on the Blockchain, it's inner workings and how it helps us in achieving our goal of automating flight insurance.
+
+\section{Blockchain}
+As discussed above, Blockchain is what is now known as public distributed ledger, designed in the first place to solve the double spending problem, that is, to establish consensus in a decentralised network over who owns what and what has already been spent\cite{Nakamoto2008Bitcoin:System}. 
+
+A distributed ledger is essentially an asset database that can be shared across a network of multiple sites, geographies or institutions. All participants within a network can have their own identical copy of the ledger. Any changes to the ledger are reflected in all copies in minutes, or in some cases, seconds. The assets can be financial, legal, physical or electronic. The security and accuracy of the assets stored in the ledger are maintained cryptographically through the use of ‘keys’ and signatures to control who can do what within the shared ledger. Entries can also be updated by one, some or all of the participants, according to rules agreed by the network.\cite{Walport2015DistributedChain}
+So how does bLockchain help in keeping records of Bitcoin transactions.  Blockchain enables Bitcoin transactions to be aggregated in ‘blocks’ and these are added to a ‘chain’ of existing blocks using a cryptographic signature. The Bitcoin ledger is constructed in a distributed and ‘permission-less’ fashion, so that anyone can add a block of transactions if they can solve a new cryptographic puzzle to add each new block. The incentive for solving the puzzle, or mining in Bitcoin terms, is that each miner gets a reward for each time the block they mined is added to the blockchain.\cite{Nakamoto2008Bitcoin:System}
+
+\section{Benefits of Blockchain}
+What we have when abstracting a blockchain network to a certain level is a distributed, self-authenticating, time-stamped store of data\cite{MonaxBlockchains}. Indeed, the core design of a blockchain node is an elegant way in which to overcome many challenges in distributed systems.
+\subsection{Resilient Data Management System}
+Blockchain clients allow for the development of distributed systems which do not rely on what traditional databases call ‘master-slave’ clusters. This drastically increases the resiliency of blockchain networks as a data management solution.
+In a blockchain network, there is not even a notion of master-slave relationships between the nodes in the cluster. Instead, blockchain networks utilise the idea of peer nodes and consensus models to resolve the current world state of the data.
+This allows for a fluid membership to the “truth creating” consortium of computers which in turn increases fault tolerance and resiliency. Breaking the data-driven transactions into blocks allows the consensus of the database to be negotiated in a reasonable manner rather than on a per-transaction basis.
+\subsection{Increased Verifiability}
+In addition, blockchain networks allow for transactional certainty. Traditional databases store the current world state of the data, and if they are programmed to do so, have additional entries covering previous transactions within the data store. In addition, traditional databases are also able to maintain logs of the history of the interactions.
+Blockchain networks are designed differently in that the logs of the transactions with the data set are used to formulate the world state of the data. The use of cryptographic authentication of time-stamped blocks of transactions allows the entire network the benefit of certainty of the entire transactional history.
+The general blockchain design not only requires that the transactional history of the data store is captured, but that it is cryptographically certain once there is sufficient consensus within the network.
+
+\section{Potential of Blockchain}
+Blockchain technology has attracted attention as the basis of cryptocurrencies such as Bitcoin, but its capabilities extend far beyond that, enabling existing technology applications to be vastly improved and new applications never previously practical to be deployed. Also known as distributed ledger technology, blockchain is expected to revolutionise industry and commerce and drive economic change on a global scale because it is immutable, transparent, and redefines trust, enabling secure, fast, trustworthy, and transparent solutions that can be public or private. It could empower people in developing countries with recognised identity, asset ownership, and financial inclusion; and it could avert a repeat of the 2008 financial crisis, support effective health care programs, improve supply chains and, perhaps, clean up unethical behaviour in high-value businesses such as diamond trading.\cite{Underwood2016BlockchainBitcoin}
+
+\subsection{Impact on Financial Industry}
+The area where many see Blockchain first changing the current financial services is the back-office handling of transactions. When a financial institution sells a syndicated loan or derivative, the recording of the transaction is time consuming and involves burdensome back-office processes. These processes rely on negotiated contracts with the numerous associated lawyers and contact between the parties to finish the transaction. On average, it can take 20 days to settle a syndicated loan trade. These back-end activities are also costly to the financial institutions. This is in contrast to the front-end systems at financial institutions, where millions are spent to achieve a nanosecond of competitive advantage. In addition, financial institutions, due to regulatory requirements, are dealing with greater requirements for reporting, transparency, and dissemination of data. They need a technological breakthrough to help solve these problems. Blockchain can be the breakthrough that can streamline these financial transactions. There are estimates that Blockchain could save financial institutions at least \$20 billion annually in settlement, regulatory, and cross-border payment costs.\cite{Fanning2016BlockchainServices}
+
+%%give citation to all below
+\begin{itemize}
+    \item Fintech startup R3, backed by over 40 global banks, is developing a standardised architecture for private ledgers that could significantly cut the cost and time of settling transactions.
+    \item The Linux Foundation’s Hyperledger project is an industry initiative including tech giant IBM that is evolving open source technology and building the foundation of a standardised, production grade digital ledger
+    \item Deloitte is working with clients and startups to develop solutions including Smart Identity, which can support banks’ regulatory client onboarding and Know Your Customer (KYC) processes, while individual financial institutions, insurance companies, exchanges, and solutions vendors also have thrown their weight behind blockchain
+    \item Nasdaq is using its Linq blockchain technology to complete and record private securities transactions, and the Depository Trust \& Clearing Corporation, working with market participants and technology firm Axoni, is managing post-trade events for credit default swaps. Regulators are also interested in the technology, as its transparency and integrity allow market activity to be monitored in real time. 
+\end{itemize}
+
+
+\subsection{Impact on Commerce and Record Keeping}
+
+\section{smart contract}
+\subsection{Original vision for the project}
+\subsubsection{Monax}
+\subsubsection{Corda}
+\subsubsection{Ethereum private smart contract}
+
+\section{Anchoring data to Blockchain}
+\subsection{Benefits}
+\subsection{Integration with project}
+
+\section{Goals Accomplished}
