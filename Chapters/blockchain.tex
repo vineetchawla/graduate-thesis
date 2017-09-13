@@ -49,10 +49,31 @@ The area where many see Blockchain first changing the current financial services
 
 
 \subsection{Impact on Commerce and Record Keeping}
+\begin{itemize}
+    \item Factom’s focus is on securing data. The company is participating in the Honduran land registry project and working on a number of projects in China, including data infrastructure for 80 smart cities, financial technology solutions, and integrating blockchain technology with electronic data notarization services to enhance integrity in information management. 
+    \item Everledger’s focus is on the identity and legitimacy of objects. Blockchain works well here because its history cannot be changed and it enables trust by consensus. The company’s initial work provides a distributed ledger of diamond ownership and transaction history verification for owners, insurance companies, claimants, and law enforcement agencies. The system assists with prevention of fraud in the supply chain, but also helps consumers decide whether to buy particular diamonds.
+\end{itemize}
 
 \section{smart contract}
+A smart contract is an automatable and enforceable agreement. Automatable by computer, although some parts may require human input and control. Enforceable either by legal enforcement of rights and obligations or via tamper-proof execution of computer code.\cite{Clack2016SmartDirections}
+In simple words, it simply states a requirement that the contract must be enforceable without specifying what is the aspect being enforced; for smart legal contracts these might be complex rights and obligations, whereas for smart contract code what is being enforced may simply be the actions of the code.
+These scripts are compiled into low level operation codes and stored in the blockchain’s data store at a particular address – which is determined when the contracts are deployed to the blockchain. When a transaction is sent to that address the distributed virtual machine on every full node of the blockchain network executes the script’s operation codes using the data which is sent with the transaction. \cite{MonaxContracts}
+
+Smart contracts are modular, repeatable, autonomous scripts, which can be used to build applications for yourself, for a community, for a client, for a bounty, or even just for fun. They can be mixed and matched, and easy to iterate, rather like lego bricks combined with pre-set templates.
+Smart contracts can be coded to reflect any kind of business or engineering logic which is data-driven: from actions as simple as up-voting a post on a forum, to the more complex such as loan collateralisation and futures contracts, to the highly complex such as repayment prioritisation on a structured note.
+
+\section{Benefits of Smart Contracts}
+As blockchain is a secure technology, so smart contracts can be more secure than traditional contract law. Also, they can reduce a number of transaction costs associated with contracting, since the blockchain cuts out any middlemen. However, the fact remains that the quality of the output depends on the quality of the input. Smart contracts are by no means magical constructs that understand user intent and are always flawless. If there is an oversight in the text, the result might be even more dramatic than in a traditional contract, because the rules of the smart contract are recorded in computer code and cannot be freely interpreted according to ‘the intent of the contract’, but only according to literal meaning.
+
 \subsection{Original vision for the project}
+As the project is outlined, the legal contract of insurance was initially supposed to be created as a smart contract. Right now there are multiple startups that are providing smart contract platforms. For the purpose of this project, two platforms were evaluated and tested for creating the legal agreement. We discuss these platforms and will go through the reasons that went into taking a decision to not use them. 
+
 \subsubsection{Monax}
+Monax is a platform that provides developers a free platform to build and run Smart contracts. The platform is based on Ethereum Virtual machines. There are no limitations on what the platform can do. The smart contracts can be for claims Management or Supply chain management etc. Monax also provide premium SDKs for sectors such as insurance but as they were expensive, they were not evaluated for the project. Instead the contract was developed from scratch using their platform with Solidity and Ethereum virtual machine. 
+\subsubsection{Architecture}
+For creating a permissioned blockchain on Monax platform, one machine is  required to act as Administrator with full rights and capabilities, and at least three machines are required to act as validator nodes, which just validate transactions and nothing else. The users that will buy insurance from us, will have a participant account, that has the rights to interact with the blockchain and nothing else.
+As Monax is a relatively new company, by the time this evaluation was going on, their product was in an alpha stage. Due to which there were many problems in setup. But as with small companies, it was easy to get in touch with the company and get all my issues pertaining to initial setup fixed. 
+\\
 \subsubsection{Corda}
 \subsubsection{Ethereum private smart contract}
 
