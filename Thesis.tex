@@ -10,6 +10,7 @@
 \usepackage[square, numbers, comma, sort&compress]{natbib}  % Use the "Natbib" style for the references in the Bibliography
 \usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
 \usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
+\usepackage[export]{adjustbox}
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
 
 %% ----------------------------------------------------------------
@@ -17,15 +18,43 @@
 \frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
 
 % Set up the Title Page
-\title  {Automating Flight Delay Insurance}
-\authors  {\texorpdfstring
-            {\href{insurance.pythonanywhere.com}{Vineet Chawla}}
-            {Vineet Chawla}
-            }
-\addresses  {\groupname\\\deptname\\\univname}  % Do not change this here, instead these must be set in the "Thesis.cls" file, please look through it instead
-\date       {\today}
-\subject    {}
-\keywords   {}
+\begin{titlepage}
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{Figures/FRA-UAS-Logo.jpg}
+        \\
+        \vspace*{1cm}
+        \title{}
+        \LARGE{Masters Thesis Report}\\
+        \vspace{2cm}
+        \Huge
+        \textbf{Automating Flight insurance}\\
+        \LARGE{A thesis presented for the degree of\\
+        M. Sc. High Integrity Systems}
+        
+        \vspace{0.5cm}
+        \LARGE
+        
+        
+        \vspace{1.5cm}
+        
+        \textbf{Vineet Chawla}\\
+        \small{Matriculation Number: 1118276}
+        
+        \vspace{2.8cm}
+        
+        {\LARGE 
+		Principal Guide: Prof. Dr. Andreas Orth \\
+		Additional Guide: Prof. Dr. Eicke Godehardt \\
+		\begin{center}
+			Frankfurt University of Applied Sciences \\		
+			Fachbereich 2: Informatik \& Ingenieurwissenschaften
+		\end{center}
+	    }
+
+        	
+        
+    \end{center}
+\end{titlepage}
 
 \maketitle
 %% ----------------------------------------------------------------
@@ -127,28 +156,6 @@ The acknowledgements and the people to thank go here, don't forget to include yo
 \listoftables  % Write out the List of Tables
 
 %% ----------------------------------------------------------------
-\setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
-\clearpage  % Start a new page
-\lhead{\emph{Abbreviations}}  % Set the left side page header to "Abbreviations"
-\listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
-{
-% \textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
-
-}
-
-%% ----------------------------------------------------------------
-\clearpage  %Start a new page
-\lhead{\emph{Automating Flight Insurance}}  % Set the left side page header to "Symbols"
-\listofnomenclature{lll}  % Include a list of Symbols (a three column table)
-{
-% symbol & name & unit \\
-$a$ & distance & m \\
-$P$ & power & W (Js$^{-1}$) \\
-& & \\ % Gap to separate the Roman symbols from the Greek
-$\omega$ & angular frequency & rads$^{-1}$ \\
-}
-%% ----------------------------------------------------------------
 % End of the pre-able, contents and lists of things
 % Begin the Dedication page
 
@@ -163,6 +170,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 %% ----------------------------------------------------------------
 \mainmatter	  % Begin normal, numeric (1,2,3...) page numbering
 \pagestyle{fancy}  % Return the page headers back to the "fancy" style
+\lhead{\emph{Automating Flight Insurance}}  % Set the left side page
 
 % Include the chapters of the thesis, as separate files
 

@@ -3,22 +3,20 @@
 Currently the insurance industry is beset with redundant and poorly optimised business processes. In this paper, the focus will be on the airline insurance or specifically, airline delay insurance. The aim will be to optimise the whole insurance process so that the user doesn't have to interact with the insurance portal. Instead of keeping the customer in the dark about the insurance payout and making them apply for the claim, we will try to be completely  transparent with the user. This will be  achieved using these two strategies
 \begin{itemize}
     \item We will show the customer payouts if the flight is delayed before the user buys the insurance. This insurance rates will be calculated on the basis of probability of flight getting delayed.
-    \item The customer 
+    \item The customer will be assured that the insurance has been created using Blockchain. We will anchor the customer data to Bitcoin blockchain for providing a timestamp of the insurance created. This would not require any third party service for verification.
 \end{itemize}
 
-goes like this. Once the user buys insurance from a flight, the user data is sent to an insurance company. The insurance payback amount is decided by actuary and underwriters. The claim process however is much more complex. Once applied, the claim request goes back and forth between the airline and insurance company for multiple confirmations and after an inordinate amount of time, the user finally gets the money back. What I plan to show using this paper is that the whole process can be automated and function without human supervision. There are two important aspects to achieving this goal:
-\begin{enumerate}
-    \item Machine Learning
-    \item Blockchain
-\end{enumerate}
-
 \section{Existing Work}
-Even though there were none of the similar products, on 13th September 2017, insurance conglomerate launched an exactly similar product. The website is \url{fizzy.axa}. It has exactly the same features as this project. 
+Even though there have been many commerce services providing commerce applications using Blockchain, there is no particular website that provides a full fledged flight delay insurance capability. A similar project was created on Ethereum smart contract called Etherisc. But using that needed an ethereum client running on the user's machine and transactions only happened using Ether, severely limiting the functionality and reach of the platform.
+On 13th Sept though insurance conglomerate launched a new website called \url{fizzy.axa} that provides the exact functionality as we intend to provide for this project. It calculates the insurance rates and displays them to the user before the user books the insurance. The claim process is automatically triggered with the help of smart contracts on Ethereum blockchain. The only difference seems to be that they pay the user only when the flight is delayed more than 2 hours.
+
 \section{Problem Statement}
-In this paper we will go through the complete process and provide a prototype based on these concepts that shows this is possible.
+Our problem statement can be defined as creating a platform such that the complete process of booking flight insurance is transparent and easy for the user. Once the user selects the flight and the date, the user will be shown the insurance rates before booking the insurance. The claims process will also be completely removed. The user will be automatically notified once the flight has landed and payment will trigger if the flight was delayed.
 
 \section{Objective and Limitations}
-The objective of the project is automating the process plain and simple. But this is not a full fledged insurance purchasing option yet. Smart contracts are still in infancy and have not gained full legal standing yet. Similar attempts have been made to replicate this process but they have been conceptually based on cryptocurrency instead of actual currency, or the simulation in our prototype.
+The objective of the project is automating the process plain and simple. But the project does not aim to create a full fledged insurance purchasing option yet. Smart contracts are still in infancy and have not gained full legal standing yet. The regulatory hurdles currently for Blockchain to be accepted as accepted platform for auditing by regulatory bodies are immense.
+Our prediction also only takes into account flights landing in Germany and only last six months flight.
+\\As this is a prototype application, the actual handling of money doesn't take place. The transfer of money is simulated and is defaulted of 10€, unless stated otherwise. 
 
 \section{How the objective will be achieved}
-The first step in calculating the insurance rates would be automating the whole process of insurance underwriters. But in doing so we have to balance risks for the company to make sure we do not lose money. This will be achieved in a very simple way.
+The first step in calculating the insurance rates would be automating the whole process of insurance underwriters. But in doing so we have to balance risks for the company to make sure we do not lose money. This will be achieved in a very simple way. We will try to predict the probability of flight delays with the outcome classified in 4 different categories. The insurance rates for four categories will be decided on the basis of our prediction results. If we predict the flight is not going to get delayed, we will provide the user with higher payout. If we predict the flight is going to get delayed, we make sure the payout to the user id decreased. This will help us to balance the payout to the users. The exact algorithm to calculate the insurance rates is discussed in the later chapters. 

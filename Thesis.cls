@@ -147,7 +147,7 @@
 \newcommand*{\keywords}[1]{\def\keywordnames{#1}}
 \supervisor  {Professor Andreas Orth}
 \examiner    {}
-\degree      {Master is High Integrity Systems}
+\degree      {M.Sc High Integrity Systems}
 \authors     {Vineet Chawla}
 \university  {\texorpdfstring{\href{Frankfurt University of Applied Sciences}
                 {University Name}}
@@ -160,7 +160,7 @@
                 {Department or School Name}}
 \DEPARTMENT  {\texorpdfstring{\href{Department or School Web Site URL Here (include http://)}
                 {COMPUTER SCIENCE }}
-                {DEPARTMENT OR SCHOOL NAME (IN BLOCK CAPITALS)}}
+                {Fachbereich 2: Informatik \& Ingenieurwissenschaften}}
 \group       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
                 {Research Group Name}}
                 {Research Group Name}}
@@ -168,13 +168,13 @@
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
 \faculty     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
-                {ANDREAS ORTH}}
-                {EICKE GODEHART}}
+                {Prof. Dr. Andreas Orth}}
+                {Prof. Dr. Eicke Godehart}}
 \FACULTY     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
                 {ANDREAS ORTH}}
                 {EICKE GODEHART}}
 \addresses   {}
-\subject     {}
+\subject     {Master Thesis Report}
 \keywords    {}
 \renewcommand\maketitle{
   \btypeout{Title Page}
@@ -204,7 +204,7 @@
       {\large degree of Masters of Science \par}
       \bigskip
       \bigskip
-      {\large in the \par}
+      {\large for partial fulfilment  \par}
       {\large \facname \par}
       {\large \deptname \par}
       \bigskip
