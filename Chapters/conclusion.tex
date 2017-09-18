@@ -1,2 +1,61 @@
 \chapter{Conclusion}
-The completion of this thesis has been a wonderful journey. At the starting of the project, our aim was to 
+Before staring the proof of concept, we had no data, and something like this wasn't tried anywhere else in the world. But on completing the prototype website, we shall first discuss our issues in problem statement that we were able to solve, future work to improve our prototype and the implications of such a product on current business practices
+
+
+
+\section{Targets achieved}
+We shall recall our aim and problem statement before we begin to describe our conclusion. In the beginning of the document, we described our problem statement as:
+
+We will divide the problem statement into sub parts and discuss the progress on each of the sub part.
+
+\subsection{Data collection}
+For predicting flight delays, we needed huge amount of data to make accurate predictions. Even though there is no publicly dataset available for German flight data, we were able to get details of every single flight landing in Germany for past six months. This was the most time consuming task of the entire project but it was vital and one of the three pillars of this project.
+\\ To complement the flight data, we were also able to collect the weather data at each of the airports before the flight was about to be landed. 
+
+\subsection{Prediction}
+Once we had our dataset, we had to predict with high degree of accuracy if the flight is being delayed and if it is, then how much. The importance of correctly predicting flight delays was 2-fold.
+\begin{enumerate}
+    \item If we  classify too many flights as on-time even though they are delayed, this will result in giving higher payouts to the users. This will incur loses to the insurance provider and hence must be ensured it doesn't happen.
+    \item If we classify too many flights as delayed even if they are on-time, we will be giving low payouts for many of the flights. This will in turn decrease the consumer interest in our insurance platform.
+\end{enumerate}
+
+To achieve satisfactory predictions, we used multiple classification algorithms, improved them by fine-tuning their hyper-parameters and selecting the one that gave us best results, not on the basis of overall accuracy, but on the basis of above mentioned criteria.
+
+\subsection{Blockchain}
+The user can't just trust us with their important user data. They also need to be given proofs of time stamping of their insurance and assurance they will receive a payback if the flight is delayed. In commercial insurance, ensuring this is the job of auditor and consumer courts. As we can't provide that trust to the consumer just yet, we use Blockchain to allay the user's fears. We provide time-stamping and non repudiation via anchoring user's data to blockchain. 
+\\Even though we planned to use smart contracts to completely automate the claim process using Blockchain, due to technical difficulties, the problem was solved using anchoring on blockchain and local python scripts. 
+
+
+\section{Benefits}
+As stated in the project introduction, our main aim was to prove that in the future, many of the manual and time consuming tasks can be automated using machine learning and blockchain. We decided to exemplify that using Flight delay prediction. The completion of the prototype proves to us the following:
+\begin{enumerate}
+    \item Using new technologies will be beneficial to the end user as it provides transparency to the end user which current business practices do not provide.
+    \item We can automate the tedious job of underwriters in calculating insurance rates. We can even make sure our algorithm keeps learning with new flight data as and when it is available.
+    \item Instead of manually relying on the claim process, each of the claim process will be triggered automatically, thereby saving valuable time of insurance company as well as the user.
+    \item We improve the data integrity and reliability. Using blockchain it is impossible to alter records. Even if our website deletes the records, it can always be verified if the insurance data was anchored to the blockchain.
+\end{enumerate}
+
+\section{Future improvements}
+Even though we achieved the first step in automating flight delay insurance, there are multiple areas where improvements can be made. 
+\subsection{Delay prediction}
+Currently the flight delay algorithm is trained on a dataset of fixed six months flight details in Germany. But the flight data is ever changing. For ex., Air Berlin is going to sell it's assets or will merge with another airline. This will dramatically alter the flight status in the future. Hence our flight data should be continuously updated, at least every month and removing the oldest one month data. This will improve and adapt our model in line with the changes in the airline world.
+
+\subsection{Blockchain implementation}
+We are currently providing just Time stamps and non repudiation service to users via anchoring customer hash to blockchain. The claims process, even though completely automated, is still a script living in our web server. To improve customer trust, we should move the whole claim process to a smart contract to further customer's trust. 
+
+\subsection{Website}
+The website has been designed keeping in mind it is a prototype for Master thesis. Still the security aspects were not ignored and were integrated with the website since the start of the design process. Due to my relative inexperience with creating user facing front-end, the user interface could still do with improvements. Scalability on the other hand should be of less concern as the cloud service provides reasonable scope to increase server capacity in case of increased demand.
+
+\subsection{Audits and regulations}
+The insurance industry is heavily regulated by the governments worldwide. Blockchain, even though under consideration by most of the regulators as a valid alternate to current business process, hasn't really yet achieved acceptance. Based on whatever regulations are finalised by each government, the structure of the website will have to change accordingly.
+
+
+
+\section{Further Applications}
+Flight delay insurance has just been used an example to show how current business processes can be improved using new and upcoming technologies. Here are some other commerce applications that can be improved using the same methodology we used here.
+
+\subsection{Agricultural insurance}
+Farmers take insurance against their crops in case a weather calamity such as draught or excessive rainfall may damage their crops. Using machine learning we can always predict the probability of the crops of a particular farmer being hit by such calamity. This will help us decide the insurance rates and then we can create a legal agreement on blockchain. The claim process too can be automatically triggered once the smart contract gets to know if any weather calamity hit that area.
+
+\subsection{Flood insurance}
+Taking the same concept it can be applied to a scenario in flood prone areas, like the recently hit Caribbean islands and South east United states. Using weather data and climate change simulations we can predict the probability of flood hitting a particular area, and then create an insurance process which creates an automatic payout smart contract based on predefined contract terms.
