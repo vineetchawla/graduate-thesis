@@ -1,32 +1,33 @@
 \chapter{Weather Data}
-As we have already discussed in the thesis up till now is that predicting the flight delays correctly is of paramount importance to us. In quest for that perfect prediction, we decided to include even the weather data in our flight data set. We are going to take weather data just about the time when the aircraft will land at its destination. 
+As already discussed up till now, predicting the flight delays correctly is of paramount importance for achieving the end goal. In quest for that perfect prediction, it was decided to include the weather data for each flight record as well. The weather data would be taken at the arrival airport at the actual time of arrival. 
 
 \section{Plausible sources for weather data}
-Thankfully, collecting weather data is much more common than collecting flight data for last six months. Result being that we had many options to choose from which provided a rich developer API to get historical data for airport sites in Germany.
-\\As a result, the consideration for choosing weather data provided was based on these two conditions
+Thankfully, collecting historical weather data is much more common than collecting historical flight data. As a result there were many options to choose from, all of which provided a rich developer API.
+\\The considerations for choosing weather data provider was based on these two conditions
 \begin{enumerate}
-    \item Limitation on making API calls
+    \item Limitations on making API calls
     \item Cost of making API calls
 \end{enumerate}
 The following three providers were shortlisted and evaluated on the above stated criteria
 \subsection{Apixu}
-Though not a famous website, apixu provides historical data of upto a year ago on a premium plan of 30 euros per month. Even though it's acceptable cost, the API has limitations of 300,000 calls per month. For normal use cases this is enough, but for our project this is not enough.
+Though not a famous website, apixu provides historical data of upto a year ago. The subscription of a premium plan of 30 euros per month is required for the privilege though. It's a reasonable cost but the API has limitations of 300,000 calls per month. For normal use cases this is enough, but for this dataset, it's not enough.
 
 \subsection{openweathermap}
-Openweathermap is another famous weather data provider. They have multiple plans for providing historical weather data, but the one that would be suitable for us would be 950 Euros per month. This is way too expensive for the data so we drop this option
+Openweathermap is another famous weather data provider. They have multiple plans for providing historical weather data, but the one that would be suitable for this project would be 950 Euros per month. This is way too expensive for the data so this option was dropped too.
+
 \subsection{DarkSky API}
-Darksky API provides weather data to a famous weather site called Forecast.io. They have the cheapest plan for the project. We can make 1000 API calls every day with every subsequent call charged at just .00001€. This amounts to about 25 euros for complete data that we require. 
+Darksky API provides weather data to a famous weather site called Forecast.io. There is no monthly subscription. Instead the costs are based on the API calls made by the developer. They provide a possibility of 1000 calls every day for free with every subsequent call charged at just .00001€. This totalled to only 35 euros for complete data that was required, hence this was a suitable choice. 
 
 \section{Getting data}
-Using API from Darksky is easy but the parameters it required were missing from our dataset. Here is how we got that data
+Using API from Darksky is easy but the parameters it required were not available in correct format, or missing altogether from the dataset. 
 \begin{enumerate}
     \item Latitude and Longitude
-    \\ The latitude and longitude for each airport in Germany wasn’t available anywhere so this information was collected manually using Google maps. In Google maps, once we point to a location, the latitude and longitude of that point is available in its URL. This process was repeated for all the 28 airports and then synced to our flights database for each flight.
+    \\ The latitude and longitude for each airport in Germany was not available anywhere so this information was collected manually using Google maps. In Google maps, once we point to a location, the latitude and longitude of that point is available in its URL. This process was repeated for all the airports in the dataset and then synced to the dataset for each flight.
     \item Time
-    \\Even though we have the time of flight and the date for each record, this API required time in UNIX epoch format. We use our date variable and actual arrival of each flight to create a corresponding epoch format time.
+    \\Even though we had the time of flight and the date for each record, this API required time in UNIX epoch format. Using date and actual arrival of each flight, a new variable was created which had the corresponding epoch format time.
 \end{enumerate}
-So before making the API class, the parameters Latitude and Longitude and the epoch time is integrated into our dataset. 
-As with other API calls, the script to get the data is written in python and integrates data right into our CSV file containing flight dataset. 
+
+After these new variables were integrated in the dataset, the REST API calls were made. As with other API calls, the script to get the data is written in python and the data was integrated right into the CSV file containing flight dataset. 
 
 
 \section{Data variables}
@@ -42,7 +43,7 @@ As with other API calls, the script to get the data is written in python and int
     \item Wind Speed
     \\The wind speed in miles per hour
     \item Wind Bearing
-    \\The direction that the wind is coming from in degrees, with true north at 0° and progressing clockwise. (If windSpeed is zero, then this value will not be defined.)
+    \\The direction that the wind is coming from in degrees, with true north at 0° and progressing clockwise. (If windSpeed was zero, then this value was not defined.)
     \item Apparent Temperature
     \\The apparent (or “feels like”) temperature in degrees Fahrenheit.
     \item Dew Point
@@ -55,4 +56,4 @@ As with other API calls, the script to get the data is written in python and int
 
 \section{Missing values cleanup}
 As the data was already clean before requesting, we got the data for each of the flight record. The python script used to request the temperature also made sure each value was in sync with the actual flight records.
-But there were still many values that we were missing in the variables. The missing variables were less than 100 for all the weather variables. But instead of substituting mean values, to fix this, it was assumed that the weather at exact same time and location on a day would be very similar to the day before or after. Hence this strategy was used and the missing values were substituted with values above or below the data cell. 
+But there were still many values that we were missing in the variables. The missing variables were less than 100 for all the weather variables. Instead of substituting mean values, to fix this, it was assumed that the weather at exact same time and location on a day would be very similar to the day before or after. Hence this strategy was used and the missing values were substituted with values above or below the data cell. 
