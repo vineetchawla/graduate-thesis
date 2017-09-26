@@ -41,7 +41,7 @@ The area where Blockchain can have immediate and everlasting effect in the curre
     \item Fintech startup R3, backed by over 40 of biggest global banks and financial institutions, is developing a standardised architecture for private ledgers that could significantly cut the cost and time of settling transactions\cite{Brown2016Corda:Introduction}. It is called Corda and currently in beta phase. More will be discussed about Corda in later sections.
     \item The Linux Foundation’s Hyperledger project is an industry initiative created with IBM's collaboration that is evolving open source technology and building the foundation of a standardised, production grade digital ledger\cite{IBM2015LinuxTechnology}.
     \item Deloitte is working with clients and startups to develop solutions including Smart Identity, which can support banks’ regulatory client onboarding and Know Your Customer (KYC) processes, while individual financial institutions, insurance companies, exchanges, and solutions vendors also have thrown their weight behind blockchain\cite{Chollet2017DeloitteRelease}.
-    \item Nasdaq is using its Linq blockchain technology to complete and record private securities transactions, and the Depository Trust \& Clearing Corporation, working with market participants and technology firm Axoni, is managing post-trade events for credit default swaps. Regulators are also interested in the technology, as its transparency and integrity allow market activity to be monitored in real time\cite{2015NasdaqNASDAQ:NDAQ}. 
+    \item Nasdaq is using its Linq blockchain technology to complete and record private securities transactions, and the Depository Trust \& Clearing Corporation, working with market participants and technology firm Axoni, is managing post-trade events for credit default swaps. Regulators are also interested in the technology, as its transparency and integrity allow market activity to be monitored in real time\cite{Briganti2015NasdaqBlockchain}. 
 \end{itemize}
 
 
@@ -51,7 +51,7 @@ The area where Blockchain can have immediate and everlasting effect in the curre
     \item Another company called Everledger’s focus is on the identity and legitimacy of objects. Blockchain works well here because its history cannot be changed and it enables trust by consensus. The company’s initial work provides a distributed ledger of diamond ownership and transaction history verification for owners, insurance companies, claimants, and law enforcement agencies. The system assists with prevention of fraud in the supply chain, but also helps consumers decide whether to buy particular diamonds.
 \end{itemize}
 
-\section{smart contract}
+\section{Smart Contract}
 As already discussed, Blockchain provides a platform to build a platform that can act as a reliable data store providing transparency, integrity and increased verifiability. Smart contract is a legal agreement that is built on Blockchain itself providing all the benefits of the blockchain and the service of a legal agreement. The smart contracts are automatable by computer, although some parts may require human input and control. The smart contract is enforceable either by legal enforcement of rights and obligations or via tamper-proof execution of computer code.\cite{Clack2016SmartDirections}
 In simple words, a smart contract contract is a digitally enforceable contract without specifying what aspect is being enforced; for smart legal contracts these might be complex rights and obligations, whereas for smart contract code what is being enforced may simply be some predetermined actions of the code.
 \\These scripts are compiled into low level operation codes and stored in the blockchain’s data store at a particular address – which is determined when the contracts are deployed to the blockchain. When a transaction is sent to that address the distributed virtual machine on every full node of the blockchain network executes the script’s operation codes using the data which is sent with the transaction. \cite{MonaxContracts}
@@ -72,41 +72,74 @@ For creating a permissioned blockchain on Monax platform, one machine is  requir
 \\After setting up with one administrator node, 3 validator nodes and 2 participant nodes, we go through setting up certificates for each machine. Then we create account types and initial tokens. After creating the tokens we give the command to create chains, which will create initial directories for each account we created. Once all the directories are created, we start the mining and our genesis block\footnote{Initial block of a cryptocurrency is called a genesis block} is created and mining begins.
 \\Once our smart contract platform is running and mining transactions, we can create a smart contract using solidity and commit transactions between participants.
 
+\subsubsection{Issues faced}
 Once the initial setup was over, there were architectural restrictions on what could be done in the platform that made it unsuitable for this platform. 
 \begin{itemize}
     \item The participants can't be created on the fly. The initial idea was whenever a user is created, that user should be classified as a participant. This will ensure the smart contract is maintained between the user and the administrator node. But creating a participant means to restart the blockchain initialisation process.
-    \item The complete blockchain runs in an Ethereum Virtual machine. There is no way to interact with the actual blockchain. Monax had a node .js library to interact with the blockchain but no official library for Python. As the project is using Python, using a different and new language was not considered due to time constraints.
+    \item The complete blockchain runs in an Ethereum Virtual machine. There is no way to interact with the actual blockchain. Monax had a node.js library to interact with the blockchain but no official library for Python. As the project is using Python, using a different and new language was not considered due to time constraints.
 \end{itemize}
 
 \subsection{Corda}
 Already discussed earlier in the paper, Corda is arguably the most famous platform for smart Contracts. It is developed by R3 consortium, which is supported buy over 50 of the biggest financial institutions of the world.
-\\A Corda network is an authenticated peer-to-peer network of nodes, where each node is a JVM run-time environment hosting Corda services and executing applications known as CorDapps.\cite{Hearn2016Corda:Ledger}. This whole network of nodes is in a permissioned network and each node uses point to point communication instead of global broadcast of requests. Instead of every node seeing every transaction between themselves, a node in Corda network can only see a transaction if the node was part of that transaction, but the node still can validate the transaction. This ensures privacy of transactions in a network.
+\subsubsection{Architecture}
+A Corda network is an authenticated peer-to-peer network of nodes, where each node is a JVM run-time environment hosting Corda services and executing applications known as CorDapps.\cite{Hearn2016Corda:Ledger}. This whole network of nodes is in a permissioned network and each node uses point to point communication instead of global broadcast of requests. Instead of every node seeing every transaction between themselves, a node in Corda network can only see a transaction if the node was part of that transaction, but the node still can validate the transaction. This ensures privacy of transactions in a network.
 As each node is running a JVM run-time environment, the smart contract, or CorDapp has to written in a JVM compatible language, like Java or Kotlin.
-\\As in the case with Monax, it is not possible to interact with Corda Blockchain directly. But Corda has native support for Oracle. Oracles are network services that, upon request, provide commands that encapsulate a specific fact (e.g. the exchange rate at time x) and list the oracle as a required signer.\cite{OraclesDocumentation}. So it was planned to create an oracle for getting flight status. The oracle service though can't be created the way REST API service is created. This had to be done with a third party website such as oraclize.it. They provided tools necessary to get the data we want as a oracle service. But again, oraclize.it is not free to use and they have to be emailed about the requirements and project on email for getting their service. This was not %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Issues faced}
+As in the case with Monax, it is not possible to interact with Corda Blockchain directly. But Corda has native support for Oracle. Oracles are network services that, upon request, provide commands that encapsulate a specific fact (e.g. the exchange rate at time x) and list the oracle as a required signer.\cite{OraclesDocumentation}. So it was planned to create an oracle for getting flight status. The oracle service though can't be created the way REST API service is created. This had to be done with a third party website such as oraclize.it. They provided tools necessary to get the data we want as a oracle service. But again, oraclize.it is not free to use and they have to be emailed about the requirements and project on email for getting their service. This was not %%%%%%%%%%%%%%%%%%%%%%%%%%
 \\The other reason for dropping the Corda platform was that it's architecture is designed in such a way that suit a limited number of financial institutions or entities which had multiple transactions in between them. This was contrary to the project idea for this thesis and hence the idea was dropped.
 
+
 \section{Anchoring data to Blockchain}
-Due to time constraints, the whole idea of creating smart contract on a blockchain was dropped and instead the plan for utilising the already existing Bitcoin blockchain was made. This plan was fulfilled by the concept called anchoring of data on Bitcoin blockchain. Anchoring in blockchain simply means adding your data to Bitcoin blockchain to provide irrefutable time-stamps and non-repudiation. 
-We have multiple services that provide anchoring service for your data. For this project, Chainpoint was selected as they have a very easy to use (and still free) REST API called Tierion.
+Due to time constraints, the whole idea of creating smart contract on a blockchain was dropped and instead the plan for utilising the already existing Bitcoin blockchain was made. This plan was fulfilled by the concept called anchoring of data on Bitcoin blockchain.
+\\The use of the Bitcoin blockchain to timestamp and verify data in an immutable public ledger was pioneered by Manuel Aráoz with the creation of Proof of Existence\cite{Araoz2013ProofExistence}. This system, and others like it, notarise data in the blockchain by calculating a hash of the data and publishing it in a Bitcoin transaction. By comparing the hash published in the blockchain with the hash of the same data, it’s possible to verify that the data existed at a specific time, providing a mechanism to validate a timestamp.
+Anchoring in blockchain simply means adding your data to Bitcoin blockchain to provide irrefutable time-stamps and non-repudiation \cite{Lemieux2017Blockchain:}. We have multiple services that provide anchoring service for valuable data. For this project, Chainpoint was selected as they have a very easy to use (and still free) REST API called Tierion to anchor data to Bitcoin blockchain. Their API provides the anchoring service using anchoring standard they created, Chainpoint.
 \\Chainpoint links a hash of your data to a blockchain and returns a timestamp proof. A Chainpoint service receives hashes which are aggregated together using a Merkle tree. The root of this tree is anchored in the Bitcoin and Ethereum blockchains. Throughout this process a Chainpoint proof is created and continually upgraded. The final Chainpoint proof defines a path of operations that cryptographically links your data to one or more blockchains.\cite{ChainpointStandard}
 \\A Chainpoint proof is a JSON-LD document, that contains the information to cryptographically verify a piece of data is anchored to a blockchain. It proves the data existed at time it was anchored. Chainpoint proofs can be verified without reliance on a trusted third party.
 \footnote{JSON-LD is a lightweight Linked Data format described here \url{https://json-ld.org/}}
-\\Once the data is sent to Tierion, they anchor it to Bitcoin blockchain. But as mining of bitcoin blockchain takes time, the status and the blockchain receipt isn't provided until at least 10 minutes after the data is sent. Hence we will have to provide the user a manual control to update their status of insurance and receive the receipt.
+\\Once the data is sent to Tierion through their API, they generate a unique SHA 256 hash of the data. Multiple hashes are assembled into a block, which is simply a list of hashes. Periodically, these blocks are used to generate a Merkle Tree\cite{MerklePROTOCOLSCRYPTOSYSTEMS} , and the Merkle Root is published in the blockchain via a transaction. By collating multiple hashes into a Merkle Tree and publishing the Merkle Root, large volumes of data is anchored in the blockchain using a single transaction. \cite{Wayne2016Chainpoint:Receipts}
 
-\subsection{Benefits}
-\begin{itemize}
-    \item Proof
-    \item Integrity of data
-    \item Audit trail
-    \item Immutable
-    \item Privacy
-\end{itemize}
+\subsection{Blockchain receipts}
+Once we hash the data, we should also be able to provide the proof that the data has been hashed to the blockchain network and can be verified via third party too. In the real world, a receipt provides proof of a transaction. In this project's case, a blockchain receipt provides proof that some data existed at a specific time. It contains all the information needed to prove an individual hash was part of the Merkle Tree whose root was published in a transaction in the Blockchain. The data in the blockchain receipt is given in table \ref{table:receipt} and the use of fields to verify data is visually represented in figure \ref{fig:merkle}
+\begin{table}[h!]
+\centering
+\begin{tabular}{||c c||} 
+\hline
+Name & Description  \\ [0.5ex] 
+\hline\hline
+@context & the JSON-LD context for the receipt \\ 
+\hline
+type & receipt type definition specifying hash method and version \\
+\hline
+targetHash & hash value being anchored to the blockchain \\
+\hline
+merkleRoot	& merkle tree root value that is anchored to the blockchain \\
+\hline
+proof	& merkle proof establishing link from the targetHash to the merkleRoot \\
+\hline
+anchor-type	& anchor type definition specifying anchoring method \\
+\hline
+anchor-sourceId &	identifier, such as a transaction id, used to locate anchored data \\ [1ex]
+ \hline
+\end{tabular}
+\caption{Different fields in blockchain receipt}
+\label{table:receipt}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Merkle.png}
+    \caption{Visual explanation of concept behind blockchain receipt\cite{Wayne2016Chainpoint:Receipts}}
+    \label{fig:merkle}
+\end{figure}
+
+By tracing a path from the Merkle root to the target hash, a Merkle Proof can be generated that proves any one of the elements is in the Merkle tree, without having to know the entire tree.
 
 \subsection{Integration with project}
 The integration of data with Tierion was very as explained in the following sequence:
 \begin{itemize}
-    \item Once the user selects and agrees to our insurance rates, we create a JSON string with all the important data, especially the following variables:
-    \item Once we have the data, we make a request to Tierion with the data. Tierion creates a hash of the data sent, and anchors it to the Bitcoin blockchain.
-    \item We receive back an id of the data and the hash calculates.
-    \item Initially the status of the blockchain in unpublished and blockchain receipt is null. However, within 10 minutes, the status is updated and the blockchain receipt is received.
+    \item Once the user selects and agrees to the shown insurance rates, a JSON string is created with user, flight and insurance data.
+    \item The JSON string is sent to Tierion using REST API.
+    \item A unique ID of the transaction is received as a response back from Tierion.
+    \item Initially the status of the blockchain in unpublished and blockchain receipt is not received. However, within 10 minutes, the status is updated to published and the blockchain receipt is received. ID is used for updating the status of the transaction and blockchain receipt.
 \end{itemize}
