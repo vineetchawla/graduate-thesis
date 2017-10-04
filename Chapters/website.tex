@@ -1,42 +1,43 @@
 \chapter{Website}
 
-Now that we have discussed all the essential components required to create the website for users to purchase the insurance, we will move to discuss about the actual creation of the website. Our website will be based on a single most important principle: Simplicity. The user will never get to see any technical jargon or need to interact with useless webpages going through things that don't matter to them. Our aim is to make the whole process of buying insurance so simple that the user can but the insurance in three clicks and if the flight is delayed, gets his/her payout automatically. 
-\\The insurance process will be carried out with a web app that has been up and running on a publicly accessible server, \url{insurance.pythonanywhere.com}. In this chapter we will first go through all the technologies used to create the website and then go through all the components of the website. 
+The two main prerequisites for the web platform, blockchain implementation strategy and flight delay prediction, have now been finalised. The next step is the creation of the web platform to provide a public facing insurance service for the users. The aim of the project is simplicity. Keeping that in mind, the customer should be able to buy the insurance in a way that is as transparent as possible. The internal complexity of the platform will be hidden from the user. For transparency, the user will always see the insurance payout rates before the user has to buy the insurance. The claims process, too, will be completely removed from the insurance process. The payout will be sent to the user without any user interaction required.
 
 \section{Technologies Used}
-There are multiple technologies that go towards making a full fledged user-facing website. We will discuss all the technologies used and the reasons they were used. Apart from blockchain, we won't go deep into any other technology as it will be out of scope of this paper. 
+There are multiple technologies that go towards making a full-fledged user-facing website. All the components used in making the insurance platform will be discussed in detail in this chapter. As blockchain has already been discussed in a previous chapter in detail, this chapter will only touch upon the final implementation and integration of anchoring with the website.
 
 \subsection{Python}
-Python is a dynamically scripted language that has become immensely popular in recent times due to its simplicity and huge developer support. For our project, the following two were the criteria on the basis of which Python was selected as the programming language of choice:
+Python is a dynamically scripted language that has become immensely popular in recent times due to its simplicity and huge developer support. For this project, the following two criteria were the basis on which Python was selected as the programming language of choice:
 \begin{enumerate}
     \item Web frameworks
-    \\Python has very popular native web-frameworks such as Django and flask. Both have great documentation and developer support, essential for this project. 
+    \\Python has very popular native web-frameworks such as Django and Flask. Both have great documentation and developer support, essential for this project. 
     \item Data science libraries
-    \\ Apart from R, python is the language with most support for the data science libraries and a go to choice for data science algorithms implementation. Even though as already mentioned in the previous chapter that our prediction algorithms were created in R, the final implementation of the algorithms has to be in our web framework language. Hence the availability of such algorithms' native implementation in python was a important consideration
+    \\ Apart from R, Python is the language with one of the most extensive support for data science libraries and a go-to choice for data science professionals. Even though the prediction algorithms were tested in R, the final implementation of the algorithm has to be in the web framework language. Hence the availability of such algorithms' native implementation in Python was an important consideration.
 \end{enumerate}
 
 \subsection{Flask}
-Flask is one of the most popular frameworks in Python. Even though Django is considered to be more mature platform with higher developer support, flask is easier to start with and had everything that was essential to create the website for us. 
+Flask is one of the most popular frameworks in Python. Even though Django is considered to be more mature platform with higher developer support, Flask is easier to start with and had everything that was essential to create the website. 
 
 \subsection{MySQL}
-MySQL was chosen as a default choice as our database wasn't going to be a complex database. 
+The database required for this project isn't too complex. For this reason, the default choice, MySQL was chosen as the database.
 
 \subsection{PyCharm IDE}
-PyCharm was the Python IDE of choice for the development process as it was a free choice with native support for flask framework. It also has inbuilt support for version control system.
+PyCharm was the Python IDE of choice for the development process as it has a free edition that provides native support for Flask framework. It also has inbuilt support for version control systems such as Github.
 
 \subsection{Github}
-For software version management, Github was chosen for version control, being the most popular git client. The public account was chosen to create the repository, as it was free and the project does not require any privacy features at the moment.
+For software version control, Github was chosen, being the most popular git repository service on internet. The public account was chosen to create the repository, as it was free and the project does not require any privacy features at the moment.
 
-\section{Website Structure}
-The structure of the website consists of the separate aspects of the website at the backend that help in creating the website. 
+\section{Website Architecture}
+A custom MVC architecture was chosen for creating the website. The difference between regular and the custom implementation of MVC architecture was that no SQL queries were directly written for this website. Instead a library was used to create queries. This helps improve the security and completely eliminates the chances of SQL injection attacks. More details are given below in the Security section.
+
 \subsection{User Administration}
 The starting point for every user, user administration is responsible for:
 \begin{enumerate}
     \item Registering a user
     \item Logging in a user
     \item Maintaining a user session
+    \item Ending the user session
 \end{enumerate}
-A Flask library called flask\_login was used to implement the User administration aspect of the website.
+A Flask library called \textit{flask\_login} was used to implement the user administration aspect of the website. A session is maintained for a particular user for 1 hour unless the user logs out before that. All the user data that is saved for a user session are encrypted by a dynamic session key by default due to the library.
 
 \subsection{SQL model}
 The SQL model defines the database model that will be used by the website for keeping user records and flight/insurance details. It contains multiple classes that correspond to unique tables in MySQL database. The first class/model defines the table structure of all the important details for the website:
@@ -53,31 +54,31 @@ The SQL model defines the database model that will be used by the website for ke
     \item Multiple payout amounts for different categories of delays
 \end{itemize}
 
-The second class/model defined creates a MySQL table that is used for our autocomplete feature on the website. Our website will only deal with airlines that land in Germany, hence we have to limit the ability of user to enter a limited set of flights. This is done using the autocomplete feature of jQuery. This model contains all the flight details including origin, destination, airline etc. Once a user starts entering flight ID in the Flight ID field, the options are presented from our database using autocomplete function of jQuery. The user is not allowed to enter any other Flight ID. 
+The second class/model defined creates a MySQL table that is used for autocomplete feature on the website. This model contains all the flight details including origin, destination, airline etc. As the insurance platform will only deal with airlines that land in Germany, the user has to be limited in his ability to enter any random flight ID. This is accomplished using the autocomplete feature of jQuery. In the Flight ID field, as soon as the user enters two characters, an autocomplete field appears which contains all the flight IDs of German flights starting with those two characters. It's a dynamic list and keeps adapting to any more characters added by the user. 
 
 \subsection{Forms}
-Forms are the flask's rendition of the HTML5 form fields. It creates HTML5 fields but adds input validation to them and makes them easier to use within our webapp. The library used for flask forms is called as WTforms. 
+Forms are the flask's rendition of the HTML5 form fields. It creates HTML5 fields but adds input validation to them and makes them easier to use within our web-app. The library used for flask forms is called as \textit{WTforms}. Multiple forms were created for the website like login, logout, user registration, flight details and insurance selection. 
 
 \subsection{Views}
-Views are basic functions that explain the framework what to do for each URL. For ex. we have a login URL for which the login view will be called. Create insurance view will call a view function attached to it's URL and so on. What we generally do is import a form to a view function if any user input is required, perform any function if required on the fields and display it to the user.
+Views are basic functions that explain the framework what to do for each URL. For ex., when the user enters the login URL, which function to call. A Create insurance view will call a function that creates insurance and so on. The most important functions handled by views are import and render the form, call relevant functions and add dynamic values to the forms, or adding form data to the database. 
 
 \subsection{REST API calls}
-REST API is a important component of any dynamic web application today. We use the Request module of Python to make a REST API call whenever we require some data from a third party, like weather, flight data or blockchain anchoring.
+REST API is an important component of any dynamic web application today. It is implemented using the \textit{Request} module of Python. It was used for getting flight and weather data, as well as anchoring data to blockchain. 
 
 \subsection{Email Notifications}
-The user has to be notified each time an insurance is created as well as when we have the flight status once the flight has landed. The notifications are currently being sent using my gmail address using a python library called \textit{smtplib}. The user details are taken from the user table, with the flight status, if available, from a REST API call. We add the details to a variable and send that variable to gmail's SMTP server with our own user account details.
+The user has to be notified each time an insurance is created. If the flight has landed, the user has to be informed about the status of the insurance payout in case the flight was delayed. The notifications are currently being sent via my Gmail address using a python library called \textit{smtplib}. The user details are taken from the user table, along with the flight status and insurance payout details. This variable is passed to the library and the email is sent.
 
 \subsection{Blockchain}
-As discussed in the blockchain chapter, we use Tierion API to hash our data and anchor it to the blockchain. This is done through a REST API call with user data sent as body in a HTTPS POST request. We receive the id of the request as the response which we store as Insurance ID. We use the same insurance ID to get the blockchain receipt once it's anchored to the blockchain.
+As discussed in the blockchain chapter, Tierion API is used to hash customer data and anchor it to the blockchain. This is done through a REST API call with user data sent as body in an HTTPS POST request. An ID of the request is received as the response which is stored as Insurance ID for the corresponding user in the website's database. The same insurance ID is used to renew the blockchain status and receive the blockchain receipt once the data is anchored to the blockchain.
 
 \subsection{Insurance payout}
-We create a script that runs once everyday with help of cron jobs. The aim of the website is to get the flight status of each flight for which we have created an insurance. If it finds out the status of a flight, based on that an email notification is created stating how much the flight was delayed and the corresponding payout. 
+A script was created that runs once everyday with help of Cron jobs. The aim of the script is to get the flight status of each flight for which the insurance was created. If a status for any flight is received, the insurance payout is decided on the basis of status. The value of the insurance payout is then sent to the user. As already mentioned, no real money is transferred to the user. Only an email with the insurance amount.
 
 \section{Website Details}
-No matter how good we handle things at the backend, the Frontend has to simple enough for the user to buy insurance easily. In this section we will go through all the sections of the website. 
+As the backend components have been discussed, now the focus is shifted to the user interface of the website. Each webpage is discussed in detail below with the actual screenshots of the website.
 
 \subsection{Registration Page}
-This will be the initial page for each user for using the website. As can be seen in the \ref{fig:reg_page}, we just require basic details from the user to get the account ready. All the fields have complete string validation with Email field requiring the value entered to be in the Email format. On clicking register, the values are validated and saved in the database. The user is redirected to the login page.
+The initial page for each user who wants to buy insurance through the website. As can be seen in the figure \ref{fig:reg_page}, only few basic details are required from the user to get the account ready. All the fields are input validated. The Email field should be unique for each user so that validation is also added. On clicking register, the values are again validated server side and saved in the database. The user is redirected to the login page on successful registration or shown an error if the email provided is not unique.
 
 \begin{figure}[h]
     \centering
@@ -87,7 +88,7 @@ This will be the initial page for each user for using the website. As can be see
 \end{figure}
 
 \subsection{Login Page}
-This is a simple login page. The user has to enter the Email ID and password and press Login. 
+This is a simple login page. The user has to enter the Email ID and password and press Login. Successful login will redirect to the initial dashboard.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{Figures/login_page.png}
@@ -96,9 +97,9 @@ This is a simple login page. The user has to enter the Email ID and password and
 \end{figure}
 
 \subsection{Initial Dashboard}
-The initial dashboard will be blank except for option for adding an insurance.
+The initial dashboard will be blank except for an option for adding insurance.
 Once the user selects \textit{Add Insurance}, the user is redirected to Fight details webpage.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/init_dashboard.png}
     \caption{Initial Dashboard}
@@ -107,7 +108,8 @@ Once the user selects \textit{Add Insurance}, the user is redirected to Fight de
 
 
 \subsection{Header/Footer}
-There are multiple values that are set dynamically in our header:
+There are multiple values that are set dynamically in the header:
+
 \begin{itemize}
     \item The rightmost field in the header is always \textit{Hi\,first\_name}.
     \item Once the user logs out, the Logout button is changed to login.
@@ -117,7 +119,7 @@ There are multiple values that are set dynamically in our header:
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{Figures/header.png}
-    \caption{Permanent Header. The rightmost field uses the user's first name.}
+    \caption{Header of the website}
     \label{fig:header}
 \end{figure}
 
@@ -125,11 +127,11 @@ There are multiple values that are set dynamically in our header:
 The flight details page is the first part of the process of booking insurance for the user. Even though there are many fields visible to the user, only two fields can be filled by user input:
 \begin{itemize}
     \item Flight ID
-    \\This is a drop down list where as soon as the user enters two characters, the valid flight IDs will be automatically suggested.  On selecting a flight, automatically all the fields are populated with details of the flight selected. Only the suggest flight IDs will be considered valid for insurance. This auto completion is achieved using jQuery.
+    \\This is a drop down list where as soon as the user enters two characters, the valid flight IDs will be automatically suggested. On selecting a flight, automatically all the fields are populated with details of the flight selected. Only the suggested flight IDs will be considered valid for insurance. This auto completion is achieved using jQuery.
     \item Date
     \\ A simple date field for entering the date of the flight departure.
 \end{itemize}
-Once the user selects the Flight ID and date and presses \textit{Calcuate Insurance rates}, the user is redirected to the screen with insurance payout visibe.
+Once the user selects the Flight ID and date and presses \textit{Calculate Insurance rates}, the user is redirected to the screen with multiple length of flight delays with corresponding insurance payout rates.
 
 \begin{figure}[h]
     \centering
@@ -139,12 +141,12 @@ Once the user selects the Flight ID and date and presses \textit{Calcuate Insura
 \end{figure}
 
 \subsection{Insurance Rates}
-Even though we redirect from the previous page to this page, a whole lot of processing happens between the redirect page. We get all the flight details, we get the weather data for flight time at the selected date, fit the data in our model and predict the flight delay. Based on the flight delay, we calculate the insurance payout for each category of delay. Those rates are what displayed on this page. 
+Even though the previous step was a redirect, a whole lot of processing happens at the backend. The flight and weather details for the flight are requested, the received data is used to predict the flight delay using the finalised model and insurance rates are calculated based on the following criteria.
 %%Add insurance screenshot
-\\In a bid to be transparent, we present the user with payouts before they actually buy the insurance. If the user is satisfied with the rates he/she can move ahead and Buy insurance.
+\\In a bid to be completely transparent to the user, the insurance payout rates are presented before buying the insurance. If the user is satisfied with the rates he/she can move ahead and Buy insurance.
 
 \subsection{Dashboard}
-On buying the insurance, the user is redirected to the dashboard, but this time the user will have a new table on the dashboard. This table contains all the details of the insurance the user purchased along with the available blockchain anchoring proof, once available. Blockchain anchoring takes time due to fundamental design of how Bitcoin works. Hence the blockchain receipt is not initially available. That's why just after creating the insurance, your dashboard will have the blockchain status as unpublished as seen in figure \ref{fig:mid_dashboard}
+On buying the insurance, the user is redirected to the dashboard, but this time the user will have a new table on the dashboard. This table contains all the details of the insurance the user has purchased along with the available blockchain anchoring proof, once available. Blockchain anchoring takes time due to fundamental design of how Bitcoin works. Hence the blockchain receipt is not initially available. That's why just after creating the insurance, the dashboard will have the blockchain status as unpublished as seen in figure \ref{fig:mid_dashboard}
 
 \begin{figure}[h]
     \centering
@@ -153,7 +155,7 @@ On buying the insurance, the user is redirected to the dashboard, but this time 
     \label{fig:mid_dashboard}
 \end{figure}
 
-The status update button is available on the dashboard, and pressing it refreshes the status. Within 10 minutes, we will have a blockchain status as complete and blockchain receipt in the box below the table as shown in figure \ref{fig:complete_dashboard}
+The status update button is available on the dashboard, and pressing it refreshes the status. Within 10 minutes, the blockchain status will be marked as complete and blockchain receipt will be visible in the box below the table as shown in figure \ref{fig:complete_dashboard}
 
 \begin{figure}[h]
     \centering
@@ -162,50 +164,19 @@ The status update button is available on the dashboard, and pressing it refreshe
     \label{fig:complete_dashboard}
 \end{figure}
 
-\subsection{Blockchain Receipt}
-As shown in the last section, blockchain receipt is updated within ten minutes of creating the insurance. But what is blockchain receipt and what does it signify, we need to emphasise. Firstly the fields in blockchain receipt as show in table \ref{table:receipt}
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{||c c||} 
- \hline
- Name & Description  \\ [0.5ex] 
- \hline\hline
-@context & the JSON-LD context for the receipt \\ 
-\hline
-type & receipt type definition specifying hash method and version \\
-\hline
-targetHash & hash value being anchored to the blockchain \\
-\hline
-merkleRoot	& merkle tree root value that is anchored to the blockchain \\
-\hline
-proof	& merkle proof establishing link from the targetHash to the merkleRoot \\
-\hline
-anchor-type	& anchor type definition specifying anchoring method (always bitcoin in our case \\
-\hline
-anchor-sourceId &	identifier, such as a transaction id, used to locate anchored data \\ [1ex]
- \hline
-\end{tabular}
-\caption{Different fields in blockchain receipt}
-\label{table:receipt}
-\end{table}
-
-%%Explain significance of blockchain receipt
-
-
 \section{Cloud Provider}
-For cloud provider, the consideration was a web hosting company rather than cloud service providers like Amazon and Google. Hence we went with pythonanywhere.com. Instead of providing with empty VM's, it tries to automate most of the tedious work of setting up the web server. Even the database creation and initialisation is automated. 
-The setup ensured that we don't have to manage our own web server or maintain a linux machine. Once we uploaded our code from github and initialised MySQL, the website was ready to go.
-The tier chosen is just 5€ per website and scales dynamically, providing us with external internet connections too.
+For hosting the website in public cloud, the consideration was for a web hosting company rather than cloud service providers like Amazon and Google. Instead of providing with empty virtual machines, pythonanywhere.com tries to automate most of the tedious work of setting up the web server, including the database creation, python libraries installation and initialisation. 
+The setup ensured there is no manual oversight required for managing the web server. Once the code was downloaded from Github onto pythonanywhere's server, the website was live within minutes.
+
 
 \section{Security Features}
 Even though this is not a security project, the website security has been given utmost importance.
 \begin{enumerate}
     \item HTTPS
-    \\ We use a HTTPS certificate from Lets Encrypt to encrypt our connection.This maintains the privacy of connection and makes sure our connection doesn't leak any confidential data.
+    \\An HTTPS certificate from Let's Encrypt is used to encrypt connection to the website. This maintains the privacy of connection and makes sure the connection doesn't leak any confidential data.
     \item Passwords are always stored as hashes. So in case of an attack, the attacker will never get to know the real passwords.
-    \item There is not a single SQL query in the entire application. Creating SQL queries is handled by the API SQLAlchemy instead, we just pass parameters to the desired functions. Hence completely removing the possibility of SQL injection attacks
-    \item Every user input is validated at the client side as well as server side
-    \item Session variables are encrypted to prevent data leakage if website is accessed using public networks
+    \item There is not a single SQL query in the entire application. Creating SQL queries is handled by the library \textit{SQLAlchemy} instead. The type of query with the parameters is sent to the library and the library does the rest. As a result, chances of SQL injection attacks are completely eliminated.
+    \item Every user input is validated at the client side as well as server side.
+    \item The user's session variables are encrypted to prevent data leakage.
 \end{enumerate}
 
