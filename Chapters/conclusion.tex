@@ -1,25 +1,25 @@
 \chapter{Conclusion}
-Blockchain has been gaining continuous popularity but the commercial implementations of technologies using blockchain have been rather limited. Being in infancy, new applications of blockchain are being created at a great pace. This project also intends to be one of those applications. The aim of this project was to show an application of blockchain and machine learning that fundamentally redesigns a legacy business practice.
+Blockchain has been gaining continuous popularity but the commercial implementations of technologies using blockchain have been rather limited. Being in infancy, new applications of blockchain are being created at a high pace. This project also intends to be one of those applications. The aim of this project was to show an application of blockchain and machine learning that fundamentally redesigns a legacy business practice.
 
 \section{Targets achieved}
 We shall recall our aim and problem statement before we begin to describe our conclusion. The problem statement is divided into different sections and then each section is evaluated against the final implementation of the website. 
 
 \subsection{Data collection}
-For predicting flight delays, huge amount of flight data was needed to make accurate predictions. Even though there is no publicly dataset available for German flight data, a dataset of each flight for a six month duration, landing in Germany, was created from scratch. This was the most time consuming task of the entire project but it was vital and one of the core component of this project.
+For predicting flight delays, a huge amount of flight data was needed to make accurate predictions. Even though there is no publicly available dataset for German flight data, a dataset of each flight for a six month duration, landing in Germany, was created from scratch. This was the most time consuming task of the entire project but it was vital and one of the core component of this project.
 \\ To complement the flight data, the weather data was also included and integrated with the dataset, resulting in increased accuracy of the flight delay prediction.
 
 \subsection{Prediction}
-Once the dataset was completed, a prediction model had to be created that predicted flight delays with high degree of accuracy. The importance of correctly predicting flight delays was 2-fold.
+Once the dataset was completed, a prediction model had to be created that predicted flight delays with a high degree of accuracy. The importance of correctly predicting flight delays was 2-fold.
 \begin{enumerate}
-    \item If too many flights were classified as on-time even though they were to be delayed, this will result in giving higher payouts to the users. This will incur loses to the insurance provider and hence must be ensured it doesn't happen.
-    \item If too many flights were classified as delayed even if they are on-time, the users would be shown low insurance payout rates for many of the flights. This will in turn decrease the consumer interest in the insurance platform.
+    \item If too many flights were classified as on-time even though they were to be delayed, this would result in giving higher payouts to the users. This would incur loses to the insurance provider and hence must be ensured it doesn't happen.
+    \item If too many flights were classified as delayed even if they are on-time, the users would be shown low insurance payout rates for many of the flights. This would in turn decrease the consumer interest in the insurance platform.
 \end{enumerate}
 
 To achieve satisfactory predictions, multiple classification algorithms were used, improved them by fine-tuning their hyper-parameters and selecting the one that gave us best results, not on the basis of overall accuracy, but on the basis of above mentioned criteria.
 
 \subsection{Blockchain}
-The user can't just trust a platform with their insurance without any oversight of an auditor. They need to be provided proofs of time stamping of their insurance and assurance they will receive a payback if the flight is delayed. In commercial insurance, ensuring this is the job of auditor and consumer courts. Blockchain is used by this platform to allay the user's fears. Time-stamping and non-repudiation is provided to the user via anchoring user's data to Bitcoin blockchain. 
-\\The initial plan was to use smart contracts to completely automate the claim process using Blockchain. Due to technical difficulties, data anchoring was chosen instead. And the payout process was automated using a local python script that run everyday using Cron jobs. 
+The users can't just trust a platform with their insurance without any oversight of an auditor. They need to be provided proofs of time stamping of their insurance and assurance they will receive a payback if the flight is delayed. In commercial insurance, ensuring this is the job of auditor and consumer courts. Blockchain is used by this platform to allay the user's fears. Time-stamping and non-repudiation is provided to the user via anchoring user's data to Bitcoin blockchain. 
+\\The initial plan was to use smart contracts to completely automate the claim process using Blockchain. Due to technical difficulties, data anchoring was chosen instead. And the payout process was automated using a local python script that runs everyday using Cron jobs. 
 
 
 \section{Benefits}
@@ -37,19 +37,19 @@ The final implementation of the platform leaves multiple areas with room for imp
 Currently the flight delay algorithm is trained on a dataset of fixed six months flight details in Germany. But the flight data is ever changing. For ex., Air Berlin is going to sell its assets or will merge with another airline. This will dramatically alter the flight status in the future. Hence our flight data should be continuously updated, at least every month, removing the oldest one month data. This will improve and adapt our model in line with the changes in the airline world.
 
 \subsection{Blockchain implementation}
-The Time stamps and non-repudiation services are being provided to users via anchoring customer hash to blockchain in this implementation. The claims process, even though completely automated, is still a script living in the web server. To improve platform efficiency, the complete process can be implemented in a smart contract platform to provide greater trust and reliability.
+The Time stamps and non-repudiation services are being provided to users via anchoring customer hash to blockchain in this implementation. The claims process, even though completely automated, is still a script living on the web server. To improve platform efficiency, the complete process can be implemented in a smart contract platform to provide greater trust and reliability.
 
 \subsection{Website}
 The website has been designed keeping in mind it is a prototype for Master thesis. Still the security aspects were not ignored and were integrated with the website since the start of the design process. Due to my relative inexperience with creating user facing front-end platforms, the user interface could still do with improvements. Scalability on the other hand should be of less concern as the cloud service provides reasonable scope to increase server capacity in case of increased demand.
 
 \subsection{Audits and regulations}
-The insurance industry is heavily regulated by the governments worldwide. Blockchain, even though under consideration by most of the regulators as a valid alternate to current business process, hasn't really yet achieved acceptance. Based on whatever regulations are finalised by each government, the structure of the website will have to change accordingly.
+The insurance industry is heavily regulated by the governments worldwide. Blockchain, even though under consideration by most of the regulators as a valid alternate to current business process, hasn't yet achieved acceptance. Based on whatever regulations are finalised by each government, the structure of the website will have to change accordingly.
 
 \section{Further Applications}
-Flight delay insurance has just been used an example to show how current business processes can be improved using new and upcoming technologies. Here are some other commerce applications that can be improved using the same methodology we used here.
+Flight delay insurance has just been used an example to show how current business processes can be improved using new and upcoming technologies. Here are some other commerce applications that can be developed using the same methodology we used here.
 
 \subsection{Agricultural Insurance}
-Farmers take insurance against their crops in case a weather calamity such as draught or excessive rainfall may damage their crops. Using machine learning the probability of the crops of a particular farmer being hit by such calamity can be predicted. This will help us decide the insurance rates and then legal agreement can be created on blockchain. The claim process too can be automatically triggered once the smart contract gets to know if any weather calamity has hit that particular area.
+Farmers take insurance against their crops in case a weather calamity such as draught or excessive rainfall may damage their crops. Using machine learning the probability of the crops of a particular farmer being hit by such calamity can be predicted. This will help us decide the insurance rates and then the legal agreement can be created on the blockchain. The claim process too can be automatically triggered once the smart contract gets to know if any weather calamity has hit that particular area.
 
 \subsection{Flood Insurance}
 Taking the same concept, it can be applied to a scenario in flood prone areas, like the recently hit Caribbean islands and South east United States. Using weather data and climate change simulations the probability of flood hitting a particular area can be predicted. Using the probability, the same process is repeated as before with creation of automated payout using smart contract based on predefined contract terms.
